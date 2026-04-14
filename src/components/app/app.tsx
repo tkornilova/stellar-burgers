@@ -11,7 +11,7 @@ import {
 } from '@pages';
 import '../../index.css';
 import styles from './app.module.css';
-import { Routes, Route, useNavigate } from 'react-router-dom';
+import { Routes, Route, useNavigate, useParams } from 'react-router-dom';
 
 import { AppHeader, IngredientDetails, Modal, OrderInfo } from '@components';
 import { ProtectedRoute } from '../../utils/protected-route';
@@ -37,7 +37,7 @@ const App = () => {
   const ingredients = items;
   const error = errorMessage;
   /** TODO: взять переменные из стора */
-  let isAuth = true;
+  let isAuth = false;
 
   const navigate = useNavigate();
 
@@ -64,7 +64,7 @@ const App = () => {
               path=':number'
               element={
                 <Modal
-                  title='TITLE'
+                  title=''
                   onClose={() => navigate(-1)}
                   children={<OrderInfo />}
                 />
@@ -121,8 +121,8 @@ const App = () => {
               path='orders/:number'
               element={
                 <Modal
-                  title='TITLE'
-                  onClose={() => console.log('модалка')}
+                  title=''
+                  onClose={() => navigate(-1)}
                   children={<OrderInfo />}
                 />
               }
@@ -133,7 +133,7 @@ const App = () => {
             path='/ingredients/:id'
             element={
               <Modal
-                title='TITLE'
+                title='Детали ингредиента'
                 onClose={() => navigate(-1)}
                 children={<IngredientDetails />}
               />
