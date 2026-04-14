@@ -20,12 +20,14 @@ import { Preloader } from '@ui';
 import { useDispatch, useSelector } from '../../services/store';
 import { useEffect } from 'react';
 import { fetchIngredients } from '../../slices/ingredientsSlice';
+import { getUser } from '../../slices/userSlice';
 
 const App = () => {
   const dispatch = useDispatch();
   const { items, isLoading, errorMessage } = useSelector(
     (store) => store.ingredients
   );
+  const { user } = useSelector((store) => store.user);
 
   useEffect(() => {
     if (items.length === 0) {
@@ -33,11 +35,16 @@ const App = () => {
     }
   }, [dispatch, items.length]);
 
+  useEffect(() => {
+    if (!user) {
+      dispatch(getUser());
+    }
+  }, []);
+
   const isIngredientsLoading = isLoading;
   const ingredients = items;
   const error = errorMessage;
-  /** TODO: взять переменные из стора */
-  let isAuth = false;
+  const isAuth = !!user;
 
   const navigate = useNavigate();
 
