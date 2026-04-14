@@ -134,7 +134,7 @@ const App = () => {
             element={
               <Modal
                 title='TITLE'
-                onClose={() => console.log('модалка')}
+                onClose={() => navigate(-1)}
                 children={<IngredientDetails />}
               />
             }
