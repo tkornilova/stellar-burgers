@@ -80,3 +80,5 @@ export const orderSlice = createSlice({
       });
   }
 });
+
+export const { clearOrder } = orderSlice.actions;

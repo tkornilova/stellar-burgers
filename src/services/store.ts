@@ -3,6 +3,7 @@ import { ingredientsSlice } from '../slices/ingredientsSlice';
 import { ordersSlice } from '../slices/ordersSlice';
 import { orderSlice } from '../slices/orderSlice';
 import { userSlice } from '../slices/userSlice';
+import { constructorSlice } from '../slices/constructorSlice';
 
 import {
   TypedUseSelectorHook,
@@ -14,7 +15,8 @@ const rootReducer = combineReducers({
   ingredients: ingredientsSlice.reducer,
   orders: ordersSlice.reducer,
   order: orderSlice.reducer,
-  user: userSlice.reducer
+  user: userSlice.reducer,
+  burgerConstructor: constructorSlice.reducer
 });
 
 const store = configureStore({
