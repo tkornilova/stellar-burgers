@@ -11,7 +11,7 @@ import {
 } from '@pages';
 import '../../index.css';
 import styles from './app.module.css';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 
 import { AppHeader, IngredientDetails, Modal, OrderInfo } from '@components';
 import { ProtectedRoute } from '../../utils/protected-route';
@@ -39,6 +39,8 @@ const App = () => {
   /** TODO: взять переменные из стора */
   let isAuth = true;
 
+  const navigate = useNavigate();
+
   return (
     <div className={styles.app}>
       <AppHeader />
@@ -63,7 +65,7 @@ const App = () => {
               element={
                 <Modal
                   title='TITLE'
-                  onClose={() => console.log('модалка')}
+                  onClose={() => navigate(-1)}
                   children={<OrderInfo />}
                 />
               }
