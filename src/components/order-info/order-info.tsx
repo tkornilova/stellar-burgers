@@ -7,7 +7,6 @@ import { useSelector } from '../../services/store';
 import { useParams } from 'react-router-dom';
 
 export const OrderInfo: FC = () => {
-  /** TODO: взять переменные orderData и ingredients из стора */
   const { items } = useSelector((store) => store.ingredients);
   const { orders } = useSelector((store) => store.orders);
 
