@@ -77,7 +77,19 @@ const App = () => {
 
             <Route path='/feed'>
               <Route index element={<Feed />} />
-              <Route path=':number' element={<OrderInfo />} />
+              <Route
+                path=':number'
+                element={
+                  <div className={styles.detailPageWrap}>
+                    <p
+                      className={`text text_type_main-large ${styles.detailHeader}`}
+                    >
+                      #{location.pathname.split('/').pop()}
+                    </p>
+                    <OrderInfo />
+                  </div>
+                }
+              />
             </Route>
 
             <Route
@@ -153,7 +165,14 @@ const App = () => {
                 path='orders/:number'
                 element={
                   <ProtectedRoute user={user} isAuthChecked={isAuthChecked}>
-                    <OrderInfo />
+                    <div className={styles.detailPageWrap}>
+                      <p
+                        className={`text text_type_main-large ${styles.detailHeader}`}
+                      >
+                        #{location.pathname.split('/').pop()}
+                      </p>
+                      <OrderInfo />
+                    </div>
                   </ProtectedRoute>
                 }
               />
