@@ -139,14 +139,21 @@ const App = () => {
                 }
               />
               <Route
-                path='/profile/orders'
+                path='orders'
                 element={
                   <ProtectedRoute user={user} isAuthChecked={isAuthChecked}>
                     <ProfileOrders />
                   </ProtectedRoute>
                 }
               />
-              <Route path='orders/:number' element={<OrderInfo />} />
+              <Route
+                path='orders/:number'
+                element={
+                  <ProtectedRoute user={user} isAuthChecked={isAuthChecked}>
+                    <OrderInfo />
+                  </ProtectedRoute>
+                }
+              />
             </Route>
 
             <Route
