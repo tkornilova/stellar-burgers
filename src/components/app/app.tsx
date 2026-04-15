@@ -23,12 +23,15 @@ import { fetchIngredients } from '../../slices/ingredientsSlice';
 import { getUser } from '../../slices/userSlice';
 
 const App = () => {
-  const dispatch = useDispatch();
   const { items, isLoading, errorMessage } = useSelector(
     (store) => store.ingredients
   );
-  const { user } = useSelector((store) => store.user);
+  const { user, isAuthChecked } = useSelector((store) => store.user);
+  const isIngredientsLoading = isLoading;
+  const ingredients = items;
+  const error = errorMessage;
 
+  const dispatch = useDispatch();
   useEffect(() => {
     if (items.length === 0) {
       dispatch(fetchIngredients());
@@ -36,15 +39,8 @@ const App = () => {
   }, [dispatch, items.length]);
 
   useEffect(() => {
-    if (!user) {
-      dispatch(getUser());
-    }
-  }, []);
-
-  const isIngredientsLoading = isLoading;
-  const ingredients = items;
-  const error = errorMessage;
-  const isAuth = !!user;
+    dispatch(getUser());
+  }, [dispatch]);
 
   const navigate = useNavigate();
 
@@ -82,7 +78,11 @@ const App = () => {
           <Route
             path='/login'
             element={
-              <ProtectedRoute isAuth={isAuth} onlyUnAuth>
+              <ProtectedRoute
+                user={user}
+                isAuthChecked={isAuthChecked}
+                onlyUnAuth
+              >
                 <Login />
               </ProtectedRoute>
             }
@@ -91,7 +91,11 @@ const App = () => {
           <Route
             path='/register'
             element={
-              <ProtectedRoute isAuth={isAuth} onlyUnAuth>
+              <ProtectedRoute
+                user={user}
+                isAuthChecked={isAuthChecked}
+                onlyUnAuth
+              >
                 <Register />
               </ProtectedRoute>
             }
@@ -100,7 +104,11 @@ const App = () => {
           <Route
             path='/forgot-password'
             element={
-              <ProtectedRoute isAuth={isAuth} onlyUnAuth>
+              <ProtectedRoute
+                user={user}
+                isAuthChecked={isAuthChecked}
+                onlyUnAuth
+              >
                 <ForgotPassword />
               </ProtectedRoute>
             }
@@ -109,7 +117,11 @@ const App = () => {
           <Route
             path='/reset-password'
             element={
-              <ProtectedRoute isAuth={isAuth} onlyUnAuth>
+              <ProtectedRoute
+                user={user}
+                isAuthChecked={isAuthChecked}
+                onlyUnAuth
+              >
                 <ResetPassword />
               </ProtectedRoute>
             }
@@ -119,7 +131,7 @@ const App = () => {
             <Route
               index
               element={
-                <ProtectedRoute isAuth={isAuth}>
+                <ProtectedRoute user={user} isAuthChecked={isAuthChecked}>
                   <Profile />
                 </ProtectedRoute>
               }
@@ -127,11 +139,13 @@ const App = () => {
             <Route
               path='orders/:number'
               element={
-                <Modal
-                  title=''
-                  onClose={() => navigate(-1)}
-                  children={<OrderInfo />}
-                />
+                <ProtectedRoute user={user} isAuthChecked={isAuthChecked}>
+                  <Modal
+                    title=''
+                    onClose={() => navigate(-1)}
+                    children={<OrderInfo />}
+                  />
+                </ProtectedRoute>
               }
             />
           </Route>
@@ -150,7 +164,7 @@ const App = () => {
           <Route
             path='/profile/orders'
             element={
-              <ProtectedRoute isAuth={isAuth}>
+              <ProtectedRoute user={user} isAuthChecked={isAuthChecked}>
                 <ProfileOrders />
               </ProtectedRoute>
             }

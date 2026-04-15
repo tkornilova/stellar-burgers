@@ -18,9 +18,6 @@ export const Login: FC = () => {
 
     dispatch(loginUser({ email, password }))
       .unwrap()
-      .then(() => {
-        navigate('/profile');
-      })
       .catch((err) => {
         console.error(err);
       });

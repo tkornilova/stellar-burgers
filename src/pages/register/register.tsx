@@ -25,9 +25,6 @@ export const Register: FC = () => {
       })
     )
       .unwrap()
-      .then(() => {
-        navigate('/profile');
-      })
       .catch((err) => {
         console.error(err);
       });
