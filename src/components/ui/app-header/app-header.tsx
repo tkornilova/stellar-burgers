@@ -47,7 +47,7 @@ export const AppHeaderUI: FC<TAppHeaderUIProps> = ({ userName }) => (
       </div>
       <div className={styles.link_position_last}>
         <NavLink
-          to={userName ? '/profile' : '/login'}
+          to='/profile'
           className={({ isActive }) =>
             `${styles.link} ${isActive ? styles.link_active : ''}`
           }
