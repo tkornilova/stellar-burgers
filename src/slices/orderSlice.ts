@@ -22,8 +22,11 @@ export const createOrder = createAsyncThunk(
     try {
       const res = await orderBurgerApi(ingredients);
       return res.order;
-    } catch (e: any) {
-      return rejectWithValue(e.message);
+    } catch (err) {
+      if (err instanceof Error) {
+        return rejectWithValue(err.message);
+      }
+      return rejectWithValue('Ошибка создания заказа');
     }
   }
 );
@@ -34,8 +37,11 @@ export const getOrderByNumber = createAsyncThunk(
     try {
       const res = await getOrderByNumberApi(number);
       return res.orders[0];
-    } catch (e: any) {
-      return rejectWithValue(e.message);
+    } catch (err) {
+      if (err instanceof Error) {
+        return rejectWithValue(err.message);
+      }
+      return rejectWithValue('Ошибка получени заказа');
     }
   }
 );
