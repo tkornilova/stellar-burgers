@@ -9,10 +9,7 @@ export const getFeeds = createAsyncThunk('orders/fetchAllOrders', async () => {
 
 export const getUserOrders = createAsyncThunk(
   'orders/getUserOrders',
-  async () => {
-    const data = await getOrdersApi();
-    return data;
-  }
+  getOrdersApi
 );
 
 type OrdersState = {
