@@ -1,33 +1,43 @@
-import { FC, useMemo } from 'react';
+import { FC, useMemo, useEffect } from 'react';
 import { Preloader } from '../ui/preloader';
 import { OrderInfoUI } from '../ui/order-info';
 import { TIngredient } from '@utils-types';
 
-export const OrderInfo: FC = () => {
-  /** TODO: взять переменные orderData и ingredients из стора */
-  const orderData = {
-    createdAt: '',
-    ingredients: [],
-    _id: '',
-    status: '',
-    name: '',
-    updatedAt: 'string',
-    number: 0
-  };
+import { useSelector, useDispatch } from '../../services/store';
+import { useParams } from 'react-router-dom';
+import { getOrderByNumber } from '../../slices/orderSlice';
 
-  const ingredients: TIngredient[] = [];
+export const OrderInfo: FC = () => {
+  const dispatch = useDispatch();
+
+  const { items } = useSelector((store) => store.ingredients);
+  const { orders } = useSelector((store) => store.orders);
+  const { orderInfo } = useSelector((store) => store.order);
+
+  const { number } = useParams();
+
+  const currentOrder = orders.find((i) => i.number === Number(number));
+
+  useEffect(() => {
+    if (!currentOrder && !orderInfo && number) {
+      dispatch(getOrderByNumber(Number(number)));
+    }
+  }, [dispatch, currentOrder, orderInfo, number]);
+
+  const finalOrder = currentOrder || orderInfo;
+  const ingredients: TIngredient[] = items;
 
   /* Готовим данные для отображения */
-  const orderInfo = useMemo(() => {
-    if (!orderData || !ingredients.length) return null;
+  const orderInfoData = useMemo(() => {
+    if (!finalOrder || !ingredients.length) return null;
 
-    const date = new Date(orderData.createdAt);
+    const date = new Date(finalOrder.createdAt);
 
     type TIngredientsWithCount = {
       [key: string]: TIngredient & { count: number };
     };
 
-    const ingredientsInfo = orderData.ingredients.reduce(
+    const ingredientsInfo = finalOrder.ingredients.reduce(
       (acc: TIngredientsWithCount, item) => {
         if (!acc[item]) {
           const ingredient = ingredients.find((ing) => ing._id === item);
@@ -52,16 +62,16 @@ export const OrderInfo: FC = () => {
     );
 
     return {
-      ...orderData,
+      ...finalOrder,
       ingredientsInfo,
       date,
       total
     };
-  }, [orderData, ingredients]);
+  }, [finalOrder, ingredients]);
 
-  if (!orderInfo) {
+  if (!orderInfoData) {
     return <Preloader />;
   }
 
-  return <OrderInfoUI orderInfo={orderInfo} />;
+  return <OrderInfoUI orderInfo={orderInfoData} />;
 };
