@@ -25,4 +25,29 @@ describe('Тестирование stellar-burger', () => {
       cy.get('[data-testid="constructor"]').should('not.be.empty');
     });
   });
+
+  describe('Тестирование модального окна:', () => {
+    const openModal = () => {
+      cy.get('[data-testid="ingredient-card"]').first().click();
+      cy.get('[data-testid="modal"]').should('be.visible');
+    };
+
+    it('Открытие модального окна', () => {
+      openModal();
+    });
+
+    it('Закрытие модального окна по клику на крестик', () => {
+      openModal();
+
+      cy.get('[data-testid="modal"] button').click();
+      cy.get('[data-testid="modal"]').should('not.exist');
+    });
+
+    it('Закрытие модального окна по клику на overlay', () => {
+      openModal();
+
+      cy.get('[data-testid="overlay"]').click({ force: true });
+      cy.get('[data-testid="modal"]').should('not.exist');
+    });
+  });
 });
