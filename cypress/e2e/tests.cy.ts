@@ -12,6 +12,14 @@ type TIngredient = {
   image_mobile: string;
 };
 
+const SELECTORS = {
+  modal: '[data-testid="modal"]',
+  ingredientCard: '[data-testid="ingredient-card"]',
+  constructor: '[data-testid="constructor"]',
+  orderButton: '[data-testid="order-button"]',
+  overlay: '[data-testid="overlay"]'
+};
+
 describe('Тестирование stellar-burger', () => {
   beforeEach(() => {
     cy.setCookie('accessToken', 'Bearer test-access-token');
@@ -33,7 +41,7 @@ describe('Тестирование stellar-burger', () => {
 
     cy.wait('@getIngredients');
 
-    cy.get('[data-testid="ingredient-card"]', { timeout: 10000 }).should(
+    cy.get(SELECTORS.ingredientCard, { timeout: 10000 }).should(
       'have.length.greaterThan',
       0
     );
@@ -46,20 +54,20 @@ describe('Тестирование stellar-burger', () => {
 
   describe('Добавление ингредиентов:', () => {
     it('Добавление любого ингредиента в конструктор', () => {
-      cy.get('[data-testid="ingredient-card"]')
+      cy.get(SELECTORS.ingredientCard)
         .first()
         .parents('li')
         .within(() => {
           cy.contains('Добавить').click();
         });
-      cy.get('[data-testid="constructor"]').should('not.be.empty');
+      cy.get(SELECTORS.constructor).should('not.be.empty');
     });
   });
 
   describe('Тестирование модального окна:', () => {
     const openModal = () => {
-      cy.get('[data-testid="ingredient-card"]').first().click();
-      cy.get('[data-testid="modal"]').should('be.visible');
+      cy.get(SELECTORS.ingredientCard).first().click();
+      cy.get(SELECTORS.modal).should('be.visible');
     };
 
     it('Открытие модального окна', () => {
@@ -69,15 +77,15 @@ describe('Тестирование stellar-burger', () => {
     it('Закрытие модального окна по клику на крестик', () => {
       openModal();
 
-      cy.get('[data-testid="modal"] button').click();
-      cy.get('[data-testid="modal"]').should('not.exist');
+      cy.get(`${SELECTORS.modal} button`).click();
+      cy.get(SELECTORS.modal).should('not.exist');
     });
 
     it('Закрытие модального окна по клику на overlay', () => {
       openModal();
 
-      cy.get('[data-testid="overlay"]').click({ force: true });
-      cy.get('[data-testid="modal"]').should('not.exist');
+      cy.get(SELECTORS.overlay).click({ force: true });
+      cy.get(SELECTORS.modal).should('not.exist');
     });
   });
 
@@ -106,12 +114,12 @@ describe('Тестирование stellar-burger', () => {
 
       cy.wait('@createOrder');
 
-      cy.get('[data-testid="modal"]').contains('12345');
+      cy.get(SELECTORS.modal).contains('12345');
 
-      cy.get('[data-testid="modal"] button').click();
-      cy.get('[data-testid="modal"]').should('not.exist');
+      cy.get(`${SELECTORS.modal} button`).click();
+      cy.get(SELECTORS.modal).should('not.exist');
 
-      cy.get('[data-testid="constructor"]')
+      cy.get(SELECTORS.constructor)
         .should('contain.text', 'Выберите начинку')
         .and('contain.text', 'Выберите булки');
     });
