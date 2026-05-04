@@ -29,7 +29,7 @@ describe('Тестирование stellar-burger', () => {
       fixture: 'order.json'
     }).as('createOrder');
 
-    cy.visit('http://localhost:4000');
+    cy.visit('/');
 
     cy.wait('@getIngredients');
 
