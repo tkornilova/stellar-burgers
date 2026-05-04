@@ -39,6 +39,11 @@ describe('Тестирование stellar-burger', () => {
     );
   });
 
+  afterEach(() => {
+    cy.clearCookies();
+    cy.window().then((win) => win.localStorage.clear());
+  });
+
   describe('Добавление ингредиентов:', () => {
     it('Добавление любого ингредиента в конструктор', () => {
       cy.get('[data-testid="ingredient-card"]')
