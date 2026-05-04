@@ -1,13 +1,11 @@
-import { ingredientsSlice, fetchIngredients } from './ingredientsSlice';
+import {
+  initialState,
+  ingredientsSlice,
+  fetchIngredients
+} from './ingredientsSlice';
 import { TIngredient } from '@utils-types';
 
 describe('ingredientsSlice', () => {
-  const initialState = {
-    items: [],
-    isLoading: false,
-    errorMessage: null
-  };
-
   const mockIngredients: TIngredient[] = [
     {
       _id: '1',

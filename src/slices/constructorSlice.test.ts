@@ -1,4 +1,5 @@
 import {
+  initialState,
   constructorSlice,
   addIngredient,
   removeIngredient,
@@ -44,13 +45,6 @@ const ingredient2: TConstructorIngredient = {
 };
 
 describe('constructorSlice reducer', () => {
-  const initialState = {
-    constructorItems: {
-      bun: null,
-      ingredients: []
-    }
-  };
-
   it('Добавляет булку', () => {
     const state = constructorSlice.reducer(initialState, addIngredient(bun));
 
