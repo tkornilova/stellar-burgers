@@ -2,7 +2,7 @@ import { rootReducer } from './store';
 
 describe('rootReducer', () => {
   it('Корректная инициализация состояния', () => {
-    const state = rootReducer(undefined, { type: '' });
+    const state = rootReducer(undefined, { type: 'UNKNOWN_ACTION' });
 
     expect(state).toHaveProperty('ingredients');
     expect(state).toHaveProperty('orders');
